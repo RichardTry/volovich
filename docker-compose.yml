@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER : postgres
+      POSTGRES_PASSWORD : postgres
+      POSTGRES_DB: database
+    ports:
+      - "5432:5432"
+  zookeeper:
+    image: quay.io/debezium/zookeeper:2.0
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888
+  kafka:
+    image: quay.io/debezium/kafka:2.0
+    ports:
+     - 9092:9092
+    links:
+     - zookeeper
+    environment:
+     - ZOOKEEPER_CONNECT=zookeeper:2181
+  logstash:
+    build:
+      dockerfile: ./logstash/Dockerfile
+      context: ./
+    volumes: 
+      - ./logstash/config:/usr/share/logstash/config
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on: 
+      - kafka
+      - influxdb
+  influxdb:
+    image: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      INFLUXDB_DB: commands
+      INFLUXDB_DB_ADMIN_ENABLED: true
+      INFLUXDB_DB_ADMIN_USER: admin
+      INFLUXDB_DB_ADMIN_PASSWORD: admin
