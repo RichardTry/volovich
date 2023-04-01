@@ -1,0 +1,5 @@
+redis
+pymongo
+neo4j
+elasticsearch
+prettytable

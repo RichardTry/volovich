@@ -1,5 +1,8 @@
 NETWORK := bridge
 MOUNT_POINT := $(shell pwd)
+
+start: start_postgres start_redis start_elastic start_mongo start_neo
+
 start_postgres:
 	docker run \
 	--rm \
@@ -103,3 +106,5 @@ stop_redis:
 
 stop_postgres:
 	docker stop postgresql
+
+stop: stop_postgres stop_redis stop_elastic stop_mongo stop_neo

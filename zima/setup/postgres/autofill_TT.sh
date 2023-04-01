@@ -1,6 +1,6 @@
 #!/bin/bash
 # export PGPASSWORD='111'; psql -h '172.17.0.2' -U 'kirill' -d 'university' -c "$1"
-host='172.17.0.1'
+host='172.17.0.2'
 get_lec_time() {
     case $1 in
         0) echo "09:00" ;;

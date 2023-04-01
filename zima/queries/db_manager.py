@@ -241,5 +241,3 @@ elif sys.argv[1] == "2":
     manager.exec_second_lab()
 elif sys.argv[1] == "3":
     manager.exec_third_lab()
-
-

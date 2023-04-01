@@ -1,0 +1,67 @@
+@startuml
+object Visits {
+ - id
+ + schedule_id
+ visited
+ date
+ + student_id
+}
+object Groups {
+ - id
+ + spec_id
+}
+object Students {
+ - id
+ + group_id
+ name
+ surname
+}
+object Schedule {
+ - id
+ date
+ + lesson_id
+ + group_id
+}
+object Lessons {
+ - id
+ type
+ + course_id
+}
+object Lessons_descriptions {
+ - id
+ materuals
+ equipment
+ + lesson_id
+}
+object Institutes {
+ - id
+ name
+}
+object Departments {
+ - id
+ + institute_id
+ name
+}
+object Specialities {
+ - id
+ + department_id
+ code
+ name
+}
+object Courses {
+ - id
+ + department_id
+ name
+}
+Visits::student_id --> Students::id
+Visits::schedule_id --> Schedule::id
+Groups::spec_id --> Specialities::id
+Students::group_id --> Groups::id
+Schedule::lesson_id --> Lessons::id
+Schedule::group_id --> Groups::id
+Lessons::course_id --> Courses::id
+Lessons_descriptions::lesson_id --> Lessons::id
+Departments::institute_id --> Institutes::id
+Specialities::department_id --> Departments::id
+Courses::department_id --> Departments::id
+@enduml
