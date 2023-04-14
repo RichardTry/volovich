@@ -1,3 +1,51 @@
+# docker-compose-psql
+```
+https://github.com/debezium/debezium-examples/tree/main/tutorial#using-postgres
+Что сделать:
+    InfluenceDB - ?
+    Пхнуть туда логи какие-нибудь
+    Как работают коннекторы джавовские - где лежат, и где искать
+
+# Start the topology as defined in 
+                https://debezium.io/documentation/reference/stable/tutorial.html
+
+export DEBEZIUM_VERSION=2.0
+
+docker-compose -f docker-compose-postgres.yaml up
+
+# Start Postgres connector
+curl -i -X POST -H "Accept:application/json" -H  \
+    "Content-Type:application/json" \
+    http://localhost:8083/connectors/ \
+    -d @register-postgres.json
+
+# Consume messages from a Debezium topic
+docker-compose -f docker-compose-postgres.yaml exec kafka \
+    /kafka/bin/kafka-console-consumer.sh \
+    --bootstrap-server kafka:9092 \
+    --from-beginning \
+    --property print.key=true \
+    --topic dbserver1.inventory.customers
+
+# Modify records in the database via Postgres client
+docker-compose -f docker-compose-postgres.yaml exec postgres env \
+PGOPTIONS="--search_path=inventory" bash -c 'psql -U $POSTGRES_USER postgres'
+
+# Shut down the cluster
+docker-compose -f docker-compose-postgres.yaml down
+```
+# es_search
+```
+# Получить последнее изменение
+curl -XGET "http://localhost:9200/dbserverpostgres.public.students/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "size": 1,
+  "_source": ["after"],
+  "sort": [{"ts_ms": "desc"}]
+}'
+```
+# postgre insertion
+```
 1. Развернуть контейнеры командой (из корня проекта):
     docker-compose -f docker-compose_cp.yml up
 2. Командой "docker network inspect softarchitecture_shared_net" узнать ip-адрес
@@ -16,3 +64,4 @@ postgres psql -U postgres university"
 "yyyy-mm-dd", с которой будет заполняться. 
 Пример: "./autofill_TT.sh 60 2022-09-01" - заполнит 60 дней, начиная с 1
 сентября 2022 года. 
+```
