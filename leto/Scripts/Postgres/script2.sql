@@ -1,3 +1,7 @@
+create schema if not exists mirea;
+
+/* INSTITUTIONS */
+
 create table mirea.institutions
 (
     id    integer     not null
@@ -6,11 +10,15 @@ create table mirea.institutions
     title varchar(50) not null
 );
 
+alter table mirea.institutions replica identity full;
+
 alter table mirea.institutions
     owner to postgres;
 
 create unique index institutions_id_uindex
     on mirea.institutions (id);
+
+/* CAFEDRA */
 
 create table mirea.cafedra
 (
@@ -24,8 +32,12 @@ create table mirea.cafedra
             on delete cascade
 );
 
+alter table mirea.cafedra replica identity full;
+
 alter table mirea.cafedra
     owner to postgres;
+
+/* SPECIALITY */
 
 create table mirea.speciality
 (
@@ -39,11 +51,15 @@ create table mirea.speciality
             on delete cascade
 );
 
+alter table mirea.speciality replica identity full;
+
 alter table mirea.speciality
     owner to postgres;
 
 create unique index speciality_code_uindex
     on mirea.speciality (code);
+
+/* GRUPPA */
 
 create table mirea.gruppa
 (
@@ -55,11 +71,15 @@ create table mirea.gruppa
     end_year        integer     not null
 );
 
+alter table mirea.gruppa replica identity full;
+
 alter table mirea.gruppa
     owner to postgres;
 
 create unique index gruppa_name_uindex
     on mirea.gruppa (code);
+
+/* STUDENT */
 
 create table mirea.student
 (
@@ -73,11 +93,15 @@ create table mirea.student
             on delete cascade
 );
 
+alter table mirea.student replica identity full;
+
 alter table mirea.student
     owner to postgres;
 
 create unique index student_code_uindex
     on mirea.student (code);
+
+/* COURSE */
 
 create table mirea.course
 (
@@ -91,11 +115,15 @@ create table mirea.course
             on delete cascade
 );
 
+alter table mirea.course replica identity full;
+
 alter table mirea.course
     owner to postgres;
 
 create unique index course_id_uindex
     on mirea.course (id);
+
+/* LESSON */
 
 create table mirea.lesson
 (
@@ -109,11 +137,15 @@ create table mirea.lesson
             on delete cascade
 );
 
+alter table mirea.lesson replica identity full;
+
 alter table mirea.lesson
     owner to postgres;
 
 create unique index lesson_id_uindex
     on mirea.lesson (id);
+
+/* TIMETABLE */
 
 create table mirea.time_table
 (
@@ -132,11 +164,15 @@ create table mirea.time_table
     lesson_number integer
 );
 
+alter table mirea.time_table replica identity full;
+
 alter table mirea.time_table
     owner to postgres;
 
 create unique index time_table_id_uindex
     on mirea.time_table (id);
+
+/* VISIT */
 
 create table mirea.visit
 (
@@ -154,9 +190,12 @@ create table mirea.visit
     is_visited    boolean default false not null
 );
 
+alter table mirea.visit replica identity full;
+
 alter table mirea.visit
     owner to postgres;
 
 create unique index visit_id_uindex
     on mirea.visit (id);
+
 

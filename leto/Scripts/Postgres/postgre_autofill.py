@@ -51,7 +51,7 @@ postgredb.execute('DELETE FROM mirea.institutions')
 
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill_institutions
 for inst in institutes_name:
@@ -60,7 +60,7 @@ for inst in institutes_name:
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill_cafedras
 for cafedra in cafedras_name:
@@ -73,7 +73,7 @@ for cafedra in cafedras_name:
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill_speciality
 for spec in speciality_name:
@@ -86,7 +86,7 @@ for spec in speciality_name:
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill_course
 for course in courses_name:
@@ -99,7 +99,7 @@ for course in courses_name:
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill lesson
 for lesson in lesson_name:
@@ -112,7 +112,7 @@ for lesson in lesson_name:
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill gruppa
 for gruppa in gruppa_name:
@@ -125,7 +125,7 @@ for gruppa in gruppa_name:
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill student
 stud_codes = [[], [], []]
@@ -142,7 +142,7 @@ for i in range(60):
 	)
 postgreconn.commit()
 
-time.sleep(5)
+# time.sleep(5)
 
 # fill timetable + visit
 tt_id = 0

@@ -78,7 +78,7 @@ services:
         /usr/share/java,/usr/share/confluent-hub-components,/data/connect-jars
     # If you want to use the Confluent Hub installer to d/l component, but make 
     # them available when running this offline, spin up the stack once and then 
-    # run : 
+    #run : 
     #   docker cp kafka-connect:/usr/share/confluent-hub-components ./data/connect-jars
     volumes:
       - ./Volumes/data:/data
@@ -88,13 +88,16 @@ services:
       - bash
       - -c
       - |
-        echo "Installing Connector"
+        echo "██████████ DEBEZIUM"
         # there are new connectors for our db
-        #confluent-hub install --no-prompt debezium/debezium-connector-postgresql:2.0.1
-        #confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:14.0.5
-        #confluent-hub install --no-prompt neo4j/kafka-connect-neo4j:2.0.0
-        #confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.6.4
-        #confluent-hub install --no-prompt mongodb/kafka-connect-mongodb:1.9.1
+        confluent-hub install --no-prompt debezium/debezium-connector-postgresql:2.0.1
+        echo "██████████ elastic"
+        confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:14.0.5
+        echo "██████████ neo4j"
+        confluent-hub install --no-prompt neo4j/kafka-connect-neo4j:2.0.0
+        echo "██████████ Finished!!!"
+        # confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.6.4
+        # confluent-hub install --no-prompt mongodb/kafka-connect-mongodb:1.9.1
         #
         echo "Launching Kafka Connect worker"
         /etc/confluent/docker/run &
@@ -162,9 +165,9 @@ services:
     ports:
       - 9200:9200
     environment:
-      xpack.security.enabled: "false"
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-      discovery.type: "single-node"
+      xpack.security.enabled: "false" # Enables Elasticsearch security features on the node.
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g" # Xmx specifies the maximum memory allocation pool for a Java Virtual Machine (JVM), Xms specifies the initial memory allocation pool.
+      discovery.type: "single-node" # Specifies whether Elasticsearch should form a multiple-node cluster. Defaults to multi-node, which means that Elasticsearch discovers other nodes when forming a cluster and allows other nodes to join the cluster later. If set to single-node.
         #volumes:
       # it's not needed now -- too high disk space
       #  - ./Volumes/elastic:/usr/share/elasticsearch/data
@@ -172,7 +175,7 @@ services:
       - shared_net
 
   neo4j:
-    image: neo4j:4.2.3
+    image: neo4j:5.1.0
     container_name: neo4j
     ports:
       - "7474:7474"
@@ -199,6 +202,20 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mongo
     volumes:
       - ./Volumes/mongo:/data/db
+    networks:
+      - shared_net
+      
+  pgdamin4:
+    image: dpage/pgadmin4
+    hostname: pgadmin4
+    container_name: pgadmin4
+    depends_on:
+      - postgres 
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+    ports:
+      - 5050:80
     networks:
       - shared_net
 

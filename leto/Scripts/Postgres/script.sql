@@ -6,7 +6,7 @@ create schema mirea;
 
 create table mirea.institutions
 (
-    id    integer     not null constraint institutions_pk primary key,
+    id integer not null constraint institutions_pk primary key,
     title varchar(50) not null
 );
 
